@@ -1,0 +1,51 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema profesor_estudiantes
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema profesor_estudiantes
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `profesor_estudiantes` DEFAULT CHARACTER SET utf8 ;
+USE `profesor_estudiantes` ;
+
+-- -----------------------------------------------------
+-- Table `profesor_estudiantes`.`profesor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `profesor_estudiantes`.`profesor` (
+  `idprofesor` INT NOT NULL AUTO_INCREMENT,
+  `nombre_profesor` VARCHAR(45) NULL,
+  `asignatura_profesor` VARCHAR(45) NULL,
+  PRIMARY KEY (`idprofesor`),
+  UNIQUE INDEX `nombre_profesor_UNIQUE` (`nombre_profesor` ASC) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `profesor_estudiantes`.`estudiantes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `profesor_estudiantes`.`estudiantes` (
+  `idestudiantes` INT NOT NULL AUTO_INCREMENT,
+  `nombre_estudiante` VARCHAR(45) NULL,
+  `edad_estudiante` INT NULL,
+  `fecha_alta` DATETIME NULL,
+  `profesor_idprofesor` INT NOT NULL,
+  PRIMARY KEY (`idestudiantes`),
+  UNIQUE INDEX `nombre_estudiante_UNIQUE` (`nombre_estudiante` ASC) ,
+  INDEX `fk_estudiantes_profesor_idx` (`profesor_idprofesor` ASC) ,
+  CONSTRAINT `fk_estudiantes_profesor`
+    FOREIGN KEY (`profesor_idprofesor`)
+    REFERENCES `profesor_estudiantes`.`profesor` (`idprofesor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
